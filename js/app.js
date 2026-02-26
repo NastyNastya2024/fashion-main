@@ -92,6 +92,7 @@
   var previewImgChat = document.getElementById('previewImgChat');
   var btnSend = document.getElementById('btnSend');
   var btnSendChat = document.getElementById('btnSendChat');
+  var figurinesWrap = document.getElementById('figurinesWrap');
 
   function hasContent() {
     return state.messages.length > 0 || state.isLoading;
@@ -324,6 +325,7 @@
     if (emptyState) emptyState.style.display = has ? 'none' : 'block';
     if (chatWrap) chatWrap.style.display = has ? 'flex' : 'none';
     if (loadingBubble) loadingBubble.style.display = (state.isLoading ? 'flex' : 'none');
+    if (figurinesWrap) figurinesWrap.classList.toggle('figurines-hidden', has);
     var hasInput = !!(state.selectedImage || (textInput && textInput.value.trim()));
     var hasInputChat = !!(state.selectedImage || (textInputChat && textInputChat.value.trim()));
     if (btnSend) btnSend.disabled = state.isLoading || !hasInput;

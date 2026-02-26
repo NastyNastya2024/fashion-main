@@ -94,9 +94,97 @@ body {
 /* Empty state */
 .empty-state {
   width: 100%;
-  max-width: 48rem;
+  max-width: 56rem;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+}
+
+.empty-state-content {
+  position: relative;
+  z-index: 1;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+/* Фигурки по бокам — вылетают к середине при загрузке */
+.figurines-wrap {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.figurines-wrap.figurines-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.figurine {
+  flex-shrink: 0;
+  width: 273px;
+}
+
+@media (min-width: 768px) {
+  .figurine {
+    width: 364px;
+  }
+}
+
+.figurine img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Девушка слева — чуть ниже, вылет с анимацией */
+.figurine-left {
+  align-self: flex-end;
+  margin-bottom: -2%;
+  margin-right: -3%;
+  opacity: 0;
+  animation: figurineFlyInLeft 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Парень справа — выше, вылет с анимацией */
+.figurine-right {
+  align-self: flex-end;
+  margin-bottom: 8%;
+  margin-left: -3%;
+  opacity: 0;
+  animation: figurineFlyInRight 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+}
+
+@keyframes figurineFlyInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-140px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes figurineFlyInRight {
+  from {
+    opacity: 0;
+    transform: translateX(140px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
 .empty-title {
