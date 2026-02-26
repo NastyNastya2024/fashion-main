@@ -48,6 +48,14 @@ async function getMarketplaces() {
   ]
 }
 
+interface Marketplace {
+  id: string
+  name: string
+  url: string
+  searchEndpoint?: string
+  enabled?: boolean
+}
+
 interface MarketplaceProduct {
   id: string
   name: string
@@ -91,11 +99,11 @@ export async function POST(request: NextRequest) {
     const MARKETPLACES = await getMarketplaces()
     
     // Поиск по изображению через API Gateway (если доступен)
-    const enabledMarketplaces = MARKETPLACES.filter((m: any) => m.enabled)
+    const enabledMarketplaces = MARKETPLACES.filter((m: Marketplace) => m.enabled)
     const allProducts: MarketplaceProduct[] = []
 
     // Параллельный поиск по всем маркетплейсам
-    const searchPromises = enabledMarketplaces.map(async (marketplace) => {
+    const searchPromises = enabledMarketplaces.map(async (marketplace: Marketplace) => {
       try {
         // Если backend доступен, используем его
         const apiGatewayUrl = process.env.API_GATEWAY_URL || 'http://localhost:8000'
