@@ -324,13 +324,15 @@
     if (emptyState) emptyState.style.display = has ? 'none' : 'block';
     if (chatWrap) chatWrap.style.display = has ? 'flex' : 'none';
     if (loadingBubble) loadingBubble.style.display = (state.isLoading ? 'flex' : 'none');
-    var disabled = state.isLoading || (!(state.selectedImage || (textInput && textInput.value.trim()) && (textInputChat && !textInputChat.value.trim())));
-    if (btnSend) btnSend.disabled = disabled;
-    if (btnSendChat) btnSendChat.disabled = state.isLoading;
+    var hasInput = !!(state.selectedImage || (textInput && textInput.value.trim()));
+    var hasInputChat = !!(state.selectedImage || (textInputChat && textInputChat.value.trim()));
+    if (btnSend) btnSend.disabled = state.isLoading || !hasInput;
+    if (btnSendChat) btnSendChat.disabled = state.isLoading || !hasInputChat;
   }
 
   function handleSubmit(e, isChat) {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
     var inputEl = isChat ? textInputChat : textInput;
     var text = (inputEl && inputEl.value.trim()) || '';
     if (!text && !state.selectedImage) return;
@@ -378,6 +380,7 @@
     state.selectedImage = null;
     updatePreviews();
     runSearch(text, state.selectedImage);
+    return false;
   }
 
   function updatePreviews() {
@@ -402,8 +405,8 @@
     setPlaceholder();
     toggleView();
 
-    document.getElementById('inputForm').addEventListener('submit', function (e) { handleSubmit(e, false); });
-    document.getElementById('inputFormChat').addEventListener('submit', function (e) { handleSubmit(e, true); });
+    document.getElementById('inputForm').addEventListener('submit', function (e) { handleSubmit(e, false); return false; });
+    document.getElementById('inputFormChat').addEventListener('submit', function (e) { handleSubmit(e, true); return false; });
 
     document.getElementById('btnImage').addEventListener('click', function () { fileInput.click(); });
     document.getElementById('btnImageChat').addEventListener('click', function () { fileInputChat.click(); });
