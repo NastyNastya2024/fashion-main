@@ -77,22 +77,30 @@
     selectedImage: null,
   };
 
-  var messagesInner = document.getElementById('messagesInner');
-  var loadingBubble = document.getElementById('loadingBubble');
-  var emptyState = document.getElementById('emptyState');
-  var chatWrap = document.getElementById('chatWrap');
-  var main = document.getElementById('main');
-  var textInput = document.getElementById('textInput');
-  var textInputChat = document.getElementById('textInputChat');
-  var fileInput = document.getElementById('fileInput');
-  var fileInputChat = document.getElementById('fileInputChat');
-  var previewWrap = document.getElementById('previewWrap');
-  var previewWrapChat = document.getElementById('previewWrapChat');
-  var previewImg = document.getElementById('previewImg');
-  var previewImgChat = document.getElementById('previewImgChat');
-  var btnSend = document.getElementById('btnSend');
-  var btnSendChat = document.getElementById('btnSendChat');
-  var figurinesWrap = document.getElementById('figurinesWrap');
+  var messagesInner, loadingBubble, emptyState, chatWrap, main;
+  var textInput, textInputChat, fileInput, fileInputChat;
+  var previewWrap, previewWrapChat, previewImg, previewImgChat;
+  var btnSend, btnSendChat, figurinesWrap;
+
+  function getEl(id) { return document.getElementById(id); }
+  function refs() {
+    messagesInner = getEl('messagesInner');
+    loadingBubble = getEl('loadingBubble');
+    emptyState = getEl('emptyState');
+    chatWrap = getEl('chatWrap');
+    main = getEl('main');
+    textInput = getEl('textInput');
+    textInputChat = getEl('textInputChat');
+    fileInput = getEl('fileInput');
+    fileInputChat = getEl('fileInputChat');
+    previewWrap = getEl('previewWrap');
+    previewWrapChat = getEl('previewWrapChat');
+    previewImg = getEl('previewImg');
+    previewImgChat = getEl('previewImgChat');
+    btnSend = getEl('btnSend');
+    btnSendChat = getEl('btnSendChat');
+    figurinesWrap = getEl('figurinesWrap');
+  }
 
   function hasContent() {
     return state.messages.length > 0 || state.isLoading;
@@ -406,6 +414,11 @@
 
   function init() {
     try {
+      refs();
+      if (!btnSend && !getEl('inputForm')) {
+        console.warn('StyleGenie: элементы формы не найдены.');
+        return;
+      }
       setPlaceholder();
       toggleView();
 
@@ -455,14 +468,19 @@
         if (btnSend) btnSend.disabled = state.isLoading || !hasInput;
         if (btnSendChat) btnSendChat.disabled = state.isLoading || !hasInputChat;
       }, 200);
+    document.body.setAttribute('data-stylegenie', 'ready');
     } catch (err) {
       console.error('StyleGenie init error:', err);
+      document.body.setAttribute('data-stylegenie', 'error');
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  function run() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   }
+  run();
 })();
