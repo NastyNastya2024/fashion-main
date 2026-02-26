@@ -475,6 +475,16 @@
     }
   }
 
+  window.__stylegenieSend = function (isChat) {
+    try {
+      refs();
+      handleSubmit({ preventDefault: function () {}, stopPropagation: function () {} }, !!isChat);
+    } catch (err) {
+      console.error('StyleGenie send error:', err);
+    }
+    return false;
+  };
+
   function run() {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
