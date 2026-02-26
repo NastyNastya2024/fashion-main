@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" id="stylegenie-css">
 </head>
 <body>
   <header class="header">
@@ -72,6 +72,26 @@
     StyleGenie может показывать товары с маркетплейсов. Проверяйте актуальность на сайтах продавцов.
   </footer>
 
-  <script src="js/app.js"></script>
+  <script>
+  (function() {
+    var path = document.location.pathname || '';
+    var base = path.endsWith('/') ? path : path.replace(/\/[^/]*$/, '') + '/';
+    if (document.location.protocol === 'file:') base = '';
+    function loadScript() {
+      var s = document.createElement('script');
+      s.src = (base && base !== '/' ? (document.location.origin || '') + base : '') + 'js/app.js';
+      s.async = false;
+      s.onerror = function() {
+        console.error('StyleGenie: не удалось загрузить js/app.js. Проверьте, что в репозитории есть папка js с файлом app.js.');
+      };
+      document.body.appendChild(s);
+    }
+    if (base && base !== '/' && document.getElementById('stylegenie-css')) {
+      var link = document.getElementById('stylegenie-css');
+      link.href = (document.location.origin || '') + base + 'css/style.css';
+    }
+    loadScript();
+  })();
+  </script>
 </body>
 </html>
