@@ -1,0 +1,46 @@
+---
+alwaysApply: true
+description: StyleGenie project structure and conventions
+---
+
+# StyleGenie Project Rules
+
+## Project Structure
+
+StyleGenie is a full-stack AI fashion application with the following architecture:
+
+- **Frontend**: Next.js 14 with TypeScript, located in [frontend/](mdc:frontend/)
+- **Backend**: Microservices architecture in [services/](mdc:services/)
+  - API Gateway: [services/api-gateway/](mdc:services/api-gateway/)
+  - Image Generation: [services/image-generation/](mdc:services/image-generation/)
+  - Search Engine: [services/search-engine/](mdc:services/search-engine/)
+  - Atelier Matching: [services/atelier-matching/](mdc:services/atelier-matching/)
+- **Shared**: Common schemas in [shared/](mdc:shared/)
+
+## Code Conventions
+
+### Frontend
+- Use TypeScript for all components
+- Follow mobile-first design principles
+- Use Tailwind CSS for styling (see [frontend/tailwind.config.ts](mdc:frontend/tailwind.config.ts))
+- Components should be in [frontend/components/](mdc:frontend/components/)
+- API routes in [frontend/app/api/](mdc:frontend/app/api/)
+
+### Backend
+- Use FastAPI for all services
+- Follow RESTful API conventions
+- Use Pydantic models for request/response validation
+- Services communicate via HTTP (see [services/api-gateway/main.py](mdc:services/api-gateway/main.py))
+
+## Key Files
+
+- API Gateway: [services/api-gateway/main.py](mdc:services/api-gateway/main.py)
+- Frontend entry: [frontend/app/page.tsx](mdc:frontend/app/page.tsx)
+- Docker config: [docker-compose.yml](mdc:docker-compose.yml)
+- Documentation: [docs/](mdc:docs/)
+
+## AI Integration Points
+
+- Image generation: [services/image-generation/main.py](mdc:services/image-generation/main.py) - integrate SDXL/Flux models
+- Vision encoder: [services/search-engine/main.py](mdc:services/search-engine/main.py) - integrate CLIP models
+- See [docs/INTEGRATION.md](mdc:docs/INTEGRATION.md) for integration details

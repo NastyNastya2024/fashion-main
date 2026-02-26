@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - IMAGE_GENERATION_SERVICE=http://image-generation:8001
+      - SEARCH_ENGINE_SERVICE=http://search-engine:8002
+      - ATELIER_MATCHING_SERVICE=http://atelier-matching:8003
+    depends_on:
+      - image-generation
+      - search-engine
+      - atelier-matching
+    networks:
+      - stylegenie-network
+
+  # Image Generation Service
+  image-generation:
+    build:
+      context: ./services/image-generation
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+      # Add AI model API keys here
+      # - REPLICATE_API_TOKEN=your_token
+      # - HUGGINGFACE_API_TOKEN=your_token
+    networks:
+      - stylegenie-network
+
+  # Search Engine Service
+  search-engine:
+    build:
+      context: ./services/search-engine
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+      # Vector DB configuration
+      # - PINECONE_API_KEY=your_key
+      # - PINECONE_ENVIRONMENT=your_env
+      # - WEAVIATE_URL=your_url
+    networks:
+      - stylegenie-network
+
+  # Atelier Matching Service
+  atelier-matching:
+    build:
+      context: ./services/atelier-matching
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - PORT=8003
+      # Database configuration
+      # - DATABASE_URL=postgresql://user:pass@postgres:5432/stylegenie
+    networks:
+      - stylegenie-network
+
+  # PostgreSQL Database (for products, users, ateliers)
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=stylegenie
+      - POSTGRES_PASSWORD=stylegenie_password
+      - POSTGRES_DB=stylegenie
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - stylegenie-network
+
+  # Redis (for caching)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - stylegenie-network
+
+networks:
+  stylegenie-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
