@@ -331,8 +331,9 @@
   }
 
   function handleSubmit(e, isChat) {
-    if (e && e.preventDefault) e.preventDefault();
-    if (e && e.stopPropagation) e.stopPropagation();
+    var ev = e || {};
+    if (ev.preventDefault) ev.preventDefault();
+    if (ev.stopPropagation) ev.stopPropagation();
     var inputEl = isChat ? textInputChat : textInput;
     var text = (inputEl && inputEl.value.trim()) || '';
     if (!text && !state.selectedImage) return;
@@ -402,33 +403,59 @@
   }
 
   function init() {
-    setPlaceholder();
-    toggleView();
+    try {
+      setPlaceholder();
+      toggleView();
 
-    document.getElementById('inputForm').addEventListener('submit', function (e) { handleSubmit(e, false); return false; });
-    document.getElementById('inputFormChat').addEventListener('submit', function (e) { handleSubmit(e, true); return false; });
+      var form1 = document.getElementById('inputForm');
+      var form2 = document.getElementById('inputFormChat');
+      if (form1) {
+        form1.addEventListener('submit', function (e) { handleSubmit(e, false); return false; });
+      }
+      if (form2) {
+        form2.addEventListener('submit', function (e) { handleSubmit(e, true); return false; });
+      }
 
-    document.getElementById('btnImage').addEventListener('click', function () { fileInput.click(); });
-    document.getElementById('btnImageChat').addEventListener('click', function () { fileInputChat.click(); });
-    fileInput.addEventListener('change', function () { onImageChange(this.files[0]); });
-    fileInputChat.addEventListener('change', function () { onImageChange(this.files[0]); });
+      // Кнопка «Отправить» — клик срабатывает даже если submit формы не сработал (например на GitHub Pages)
+      if (btnSend) {
+        btnSend.addEventListener('click', function (e) {
+          e.preventDefault();
+          handleSubmit(e, false);
+          return false;
+        });
+      }
+      if (btnSendChat) {
+        btnSendChat.addEventListener('click', function (e) {
+          e.preventDefault();
+          handleSubmit(e, true);
+          return false;
+        });
+      }
 
-    document.getElementById('previewRemove').addEventListener('click', function () {
-      state.selectedImage = null;
-      updatePreviews();
-    });
-    document.getElementById('previewRemoveChat').addEventListener('click', function () {
-      state.selectedImage = null;
-      updatePreviews();
-    });
+      if (document.getElementById('btnImage') && fileInput) {
+        document.getElementById('btnImage').addEventListener('click', function () { fileInput.click(); });
+      }
+      if (document.getElementById('btnImageChat') && fileInputChat) {
+        document.getElementById('btnImageChat').addEventListener('click', function () { fileInputChat.click(); });
+      }
+      if (fileInput) fileInput.addEventListener('change', function () { onImageChange(this.files[0]); });
+      if (fileInputChat) fileInputChat.addEventListener('change', function () { onImageChange(this.files[0]); });
 
-    setInterval(function () {
-      if (loadingBubble) loadingBubble.style.display = state.isLoading ? 'flex' : 'none';
-      var hasInput = (textInput && textInput.value.trim()) || state.selectedImage;
-      var hasInputChat = (textInputChat && textInputChat.value.trim()) || state.selectedImage;
-      if (btnSend) btnSend.disabled = state.isLoading || !hasInput;
-      if (btnSendChat) btnSendChat.disabled = state.isLoading || !hasInputChat;
-    }, 200);
+      var pr = document.getElementById('previewRemove');
+      if (pr) pr.addEventListener('click', function () { state.selectedImage = null; updatePreviews(); });
+      var prc = document.getElementById('previewRemoveChat');
+      if (prc) prc.addEventListener('click', function () { state.selectedImage = null; updatePreviews(); });
+
+      setInterval(function () {
+        if (loadingBubble) loadingBubble.style.display = state.isLoading ? 'flex' : 'none';
+        var hasInput = (textInput && textInput.value.trim()) || state.selectedImage;
+        var hasInputChat = (textInputChat && textInputChat.value.trim()) || state.selectedImage;
+        if (btnSend) btnSend.disabled = state.isLoading || !hasInput;
+        if (btnSendChat) btnSendChat.disabled = state.isLoading || !hasInputChat;
+      }, 200);
+    } catch (err) {
+      console.error('StyleGenie init error:', err);
+    }
   }
 
   if (document.readyState === 'loading') {
