@@ -762,11 +762,29 @@ body {
     <small>На этом хостинге (GitHub Pages) нет сервера — ответы и «поиск» работают в браузере по демо-данным.</small>
   </footer>
 
-<script>/**
- * StyleGenie — статическая версия для GitHub Pages
- * Вся логика чата: шаги, быстрые ответы, карточки товаров и ателье
- */
-
+<script>
+window.__stylegenieSend = function(isChat) {
+  try {
+    if (window.__stylegenieDoSend) return window.__stylegenieDoSend(isChat);
+  } catch (e) {}
+  var inp = document.getElementById(isChat ? 'textInputChat' : 'textInput');
+  var text = (inp && inp.value) ? inp.value.trim() : '';
+  if (!text) return false;
+  var area = document.getElementById('messagesInner');
+  var main = document.getElementById('main');
+  var empty = document.getElementById('emptyState');
+  var chat = document.getElementById('chatWrap');
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  if (area) {
+    area.innerHTML += '<div class="msg user"><div class="msg-bubble"><p class="msg-content">' + esc(text) + '</p></div></div>';
+    area.innerHTML += '<div class="msg assistant"><div class="msg-bubble"><p class="msg-content">Понял! Уточни ценовой сегмент:</p><div class="quick-replies"><div class="quick-replies-buttons"><button type="button" class="quick-reply-btn" data-action="budget">До 10 000 ₽</button><button type="button" class="quick-reply-btn" data-action="mid">10 000 – 30 000 ₽</button><button type="button" class="quick-reply-btn" data-action="premium_mid">30 000 – 50 000 ₽</button><button type="button" class="quick-reply-btn" data-action="premium">Премиум 50 000+ ₽</button><button type="button" class="quick-reply-btn" data-action="discounts">Искать скидки</button></div></div></div></div>';
+  }
+  if (main) main.classList.add('has-content');
+  if (empty) empty.style.display = 'none';
+  if (chat) chat.style.display = 'flex';
+  if (inp) inp.value = '';
+  return false;
+};
 (function () {
   'use strict';
 
@@ -1239,7 +1257,7 @@ body {
     }
   }
 
-  window.__stylegenieSend = function (isChat) {
+  window.__stylegenieDoSend = function (isChat) {
     try {
       refs();
       handleSubmit({ preventDefault: function () {}, stopPropagation: function () {} }, !!isChat);
