@@ -167,25 +167,25 @@ async function searchByText(query: string): Promise<MarketplaceProduct[]> {
   return products
 }
 
-// Data URI — заглушка изображения (работает без внешних запросов)
-const PLACEHOLDER_IMAGE =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect fill='%23f3f4f6' width='300' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-size='20' font-family='system-ui,sans-serif'%3EПлатье%3C/text%3E%3C/svg%3E"
-
-// Несколько вариантов заглушек для «нескольких образов» у товара
-const PLACEHOLDER_IMAGE_2 =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect fill='%23e5e7eb' width='300' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-size='18' font-family='system-ui,sans-serif'%3EФото 2%3C/text%3E%3C/svg%3E"
-const PLACEHOLDER_IMAGE_3 =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect fill='%23d1d5db' width='300' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%236b7280' font-size='18' font-family='system-ui,sans-serif'%3EФото 3%3C/text%3E%3C/svg%3E"
-
-// Генерация mock продуктов: мало карточек, у каждого несколько изображений
+// Фото платьев в том же стиле, что и у карточек ателье (Unsplash, aspect 3/4)
+const DRESS_IMAGES = [
+  'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=533&fit=crop', // платье на модели
+  'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=400&h=533&fit=crop', // вечернее платье
+  'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=533&fit=crop', // элегантное платье
+  'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=533&fit=crop', // платье в интерьере
+  'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&h=533&fit=crop', // стильное платье
+  'https://images.unsplash.com/photo-1585487000143-668a2d34c32f?w=400&h=533&fit=crop', // платье крупный план
+]
+// Генерация mock продуктов: картинки платьев как у ателье — постановочные фото
 function generateMockProducts(marketplace: any, query: string): MarketplaceProduct[] {
+  const [img1, img2, img3] = DRESS_IMAGES
   const mockProducts = [
     {
       id: `${marketplace.id}-1`,
       name: `Элегантное платье ${query}`,
       price: Math.floor(Math.random() * 50000) + 5000,
-      image: PLACEHOLDER_IMAGE,
-      images: [PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE_2, PLACEHOLDER_IMAGE_3],
+      image: img1,
+      images: [img1, DRESS_IMAGES[3], DRESS_IMAGES[4]],
       url: `${marketplace.url}/product/1`,
       marketplace: marketplace.name,
       similarity: 0.85 + Math.random() * 0.1,
@@ -195,8 +195,8 @@ function generateMockProducts(marketplace: any, query: string): MarketplaceProdu
       id: `${marketplace.id}-2`,
       name: `Стильное платье ${query}`,
       price: Math.floor(Math.random() * 50000) + 5000,
-      image: PLACEHOLDER_IMAGE,
-      images: [PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE_2],
+      image: img2,
+      images: [img2, DRESS_IMAGES[4]],
       url: `${marketplace.url}/product/2`,
       marketplace: marketplace.name,
       similarity: 0.75 + Math.random() * 0.1,
@@ -206,8 +206,8 @@ function generateMockProducts(marketplace: any, query: string): MarketplaceProdu
       id: `${marketplace.id}-3`,
       name: `Классическое платье ${query}`,
       price: Math.floor(Math.random() * 50000) + 5000,
-      image: PLACEHOLDER_IMAGE,
-      images: [PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE_2, PLACEHOLDER_IMAGE_3],
+      image: img3,
+      images: [img3, DRESS_IMAGES[5], DRESS_IMAGES[0]],
       url: `${marketplace.url}/product/3`,
       marketplace: marketplace.name,
       similarity: 0.65 + Math.random() * 0.1,
