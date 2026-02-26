@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>StyleGenie — подбор образов и ателье</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1 class="header-title">StyleGenie</h1>
+    <nav class="header-nav">
+      <a href="#">Маркетплейсы</a>
+      <a href="#">Мои образы</a>
+    </nav>
+  </header>
+
+  <main class="main" id="main">
+    <!-- Пустое состояние: по центру -->
+    <section class="empty-state" id="emptyState">
+      <h2 class="empty-title">Опиши, какой образ ты хочешь найти</h2>
+      <div class="input-bar-wrap">
+        <div class="preview-wrap" id="previewWrap" style="display: none;">
+          <img id="previewImg" src="" alt="">
+          <button type="button" class="preview-remove" id="previewRemove" aria-label="Убрать">×</button>
+        </div>
+        <form class="input-form" id="inputForm">
+          <input type="file" id="fileInput" accept="image/*" class="hidden">
+          <input type="text" id="textInput" placeholder="Опиши образ или прикрепи картинку..." autocomplete="off">
+          <button type="button" class="btn-icon" id="btnImage" aria-label="Прикрепить картинку">📷</button>
+          <button type="submit" class="btn-send" id="btnSend" aria-label="Отправить">→</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Режим чата -->
+    <section class="chat-wrap" id="chatWrap" style="display: none;">
+      <div class="messages-wrap">
+        <div class="messages-inner" id="messagesInner"></div>
+        <div class="loading-bubble" id="loadingBubble" style="display: none;">
+          <div class="loading-bubble-inner"><span class="spinner"></span></div>
+        </div>
+        <div id="messagesEnd"></div>
+      </div>
+      <div class="input-bar-fixed">
+        <div class="preview-wrap preview-wrap-inline" id="previewWrapChat" style="display: none;">
+          <img id="previewImgChat" src="" alt="">
+          <button type="button" class="preview-remove" id="previewRemoveChat">×</button>
+        </div>
+        <form class="input-form" id="inputFormChat">
+          <input type="file" id="fileInputChat" accept="image/*" class="hidden">
+          <input type="text" id="textInputChat" placeholder="Напиши сообщение..." autocomplete="off">
+          <button type="button" class="btn-icon" id="btnImageChat" aria-label="Прикрепить картинку">📷</button>
+          <button type="submit" class="btn-send" id="btnSendChat" aria-label="Отправить">→</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    StyleGenie может показывать товары с маркетплейсов. Проверяйте актуальность на сайтах продавцов.
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
