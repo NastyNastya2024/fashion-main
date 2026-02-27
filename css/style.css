@@ -159,14 +159,14 @@ body.dialog-active {
   width: 273px;
 }
 
-/* Мобильная версия: фигурки меньше, контейнер уже — чтобы не уезжали за экран */
+/* Мобильная версия: фигурки немного увеличены, контейнер уже — чтобы не уезжали за экран */
 @media (max-width: 767px) {
   .figurines-wrap {
     left: -8%;
     right: -8%;
   }
   .figurine {
-    width: 160px;
+    width: 190px;
   }
   .figurine-left {
     margin-bottom: 26%;
