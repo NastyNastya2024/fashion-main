@@ -159,10 +159,10 @@ body.dialog-active {
   display: block;
 }
 
-/* Девушка слева — сдвинута к левому краю */
+/* Девушка слева — на одном уровне с парнем, чуть пониже (чашка видна) */
 .figurine-left {
   align-self: flex-end;
-  margin-bottom: -2%;
+  margin-bottom: 5%;
   margin-right: 4%;
   margin-left: -2%;
   opacity: 0;
@@ -202,22 +202,78 @@ body.dialog-active {
 }
 
 .empty-title {
-  margin: 0 0 32px;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--gray-800);
+  margin: 0 0 12px;
+  font-family: 'Nunito', var(--font-inter);
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-style: italic;
+  color: #1e3a5f;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 @media (min-width: 768px) {
   .empty-title {
-    font-size: 1.875rem;
+    font-size: 2.25rem;
   }
+}
+
+.empty-subtitle {
+  margin: 0 0 32px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--gray-600);
+  line-height: 1.5;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .input-bar-wrap {
   width: 100%;
   max-width: 48rem;
   margin: 0 auto;
+}
+
+/* Бегущая строка серых иконок маркетплейсов под полем ввода, плавно исчезает у фигур */
+.marketplaces-ticker-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  margin: 24px auto 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+.marketplaces-ticker {
+  overflow: hidden;
+}
+
+.marketplaces-ticker-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  animation: marketplaces-ticker-scroll 45s linear infinite;
+}
+
+.marketplaces-ticker-inner:hover {
+  animation-play-state: paused;
+}
+
+.marketplaces-ticker-item {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  white-space: nowrap;
+}
+
+@keyframes marketplaces-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .preview-wrap {

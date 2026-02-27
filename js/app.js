@@ -194,8 +194,17 @@
       return;
     }
     if (action === 'new_search') {
-      run();
+      clearMessagesAndRestoreInput();
     }
+  }
+
+  function clearMessagesAndRestoreInput() {
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+    var area = document.getElementById('messagesInner');
+    if (area) area.innerHTML = '';
+    showLoading(false);
+    restoreInputBar();
   }
 
   function scrollToEnd() {
@@ -222,8 +231,17 @@
     var fixed = document.querySelector('.input-bar-fixed');
     if (!fixed) return;
     fixed.innerHTML = INPUT_BAR_HTML;
+    var form = document.getElementById('inputFormChat');
+    var input = document.getElementById('textInputChat');
     var sendBtn = document.getElementById('btnSendChat');
-    if (sendBtn) sendBtn.onclick = function () { run(); };
+    function sendNewMessage() {
+      var text = (input && input.value) ? input.value.trim() : '';
+      if (!text) return;
+      input.value = '';
+      startConversation(text);
+    }
+    if (form) form.onsubmit = function (e) { e.preventDefault(); sendNewMessage(); };
+    if (sendBtn) sendBtn.onclick = sendNewMessage;
   }
 
   function switchToChat() {
@@ -323,7 +341,7 @@
     });
   }
 
-  // 10 популярных маркетплейсов России по продаже одежды (иконки — favicon)
+  // Маркетплейсы и популярные бренды одежды
   var MARKETPLACES_LIST = [
     { name: 'Wildberries', url: 'https://www.wildberries.ru', icon: 'https://www.wildberries.ru/favicon.ico' },
     { name: 'Ozon', url: 'https://www.ozon.ru', icon: 'https://www.ozon.ru/favicon.ico' },
@@ -334,8 +352,21 @@
     { name: 'Goods', url: 'https://goods.ru', icon: 'https://goods.ru/favicon.ico' },
     { name: 'Brandshop', url: 'https://brandshop.ru', icon: 'https://brandshop.ru/favicon.ico' },
     { name: 'ЦУМ', url: 'https://www.tsum.ru', icon: 'https://www.tsum.ru/favicon.ico' },
-    { name: 'Глория Джинс', url: 'https://www.gloria-jeans.ru', icon: 'https://www.gloria-jeans.ru/favicon.ico' },
+    { name: 'The Cultt', url: 'https://thecultt.com', icon: 'https://thecultt.com/favicon.ico' },
+    { name: 'Goods Gifts', url: 'https://goods.gifts/', icon: 'https://goods.gifts/favicon.ico' },
   ];
+
+  function initMarketplacesTicker() {
+    var inner = document.getElementById('marketplacesTickerInner');
+    if (!inner) return;
+    function itemHtml(m) {
+      return (
+        '<span class="marketplaces-ticker-item">' + esc(m.name) + '</span>'
+      );
+    }
+    var oneRow = MARKETPLACES_LIST.map(itemHtml).join('');
+    inner.innerHTML = oneRow + oneRow;
+  }
 
   function initMarketplacesModal() {
     var btn = document.getElementById('navMarketplaces');
@@ -379,11 +410,13 @@
     document.addEventListener('DOMContentLoaded', function () {
       run();
       initEmptyStateForm();
+      initMarketplacesTicker();
       initMarketplacesModal();
     });
   } else {
     run();
     initEmptyStateForm();
+    initMarketplacesTicker();
     initMarketplacesModal();
   }
 })();
