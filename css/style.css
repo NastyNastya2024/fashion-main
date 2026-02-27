@@ -29,10 +29,22 @@ body {
   font-family: var(--font-inter);
   font-size: 15px;
   color: var(--gray-900);
-  background: var(--white);
+  background-color: #e8eaed;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.55)), url(../images/background.png);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
+  transition: background-image 0.4s ease, background-color 0.4s ease;
+}
+
+/* Когда идёт диалог (чат виден) — убираем картинку с фона */
+body.dialog-active {
+  background-image: none;
+  background-color: var(--white);
 }
 
 /* Header */

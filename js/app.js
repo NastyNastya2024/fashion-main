@@ -6,21 +6,35 @@
 
   var PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="400"%3E%3Crect fill="%23f3f4f6" width="300" height="400"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="16"%3EНет фото%3C/text%3E%3C/svg%3E';
 
-  // Приглушённые, молодёжные образы (не яркие)
-  var PRODUCT_IMAGES = [
-    'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=533&fit=crop&sat=0.7',
-    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=533&fit=crop&sat=0.7',
-    'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&h=533&fit=crop&sat=0.7',
-    'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=533&fit=crop&sat=0.7',
-    'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=533&fit=crop&sat=0.7',
-    'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=533&fit=crop&sat=0.7',
-  ];
+  // Модные образы для карточек: подписи соответствуют содержимому фото
+  var FASHION_IMAGES = {
+    dressMidi: [
+      'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=533&fit=crop',
+    ],
+    evening: [
+      'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=533&fit=crop',
+    ],
+    whiteTeeLooks: [
+      'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=533&fit=crop',
+    ],
+    ponchoSummer: [
+      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&h=533&fit=crop',
+      'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=533&fit=crop',
+    ],
+  };
 
   var DEMO_PRODUCTS = [
-    { id: '1', name: 'Платье миди приглушённого оттенка', price: 18900, image: PRODUCT_IMAGES[0], url: '#', marketplace: 'Lamoda', similarity: 92 },
-    { id: '2', name: 'Вечерний образ в нейтральных тонах', price: 24500, image: PRODUCT_IMAGES[1], url: '#', marketplace: 'Lamoda', similarity: 88 },
-    { id: '3', name: 'Классическое платье молодежный крой', price: 15900, image: PRODUCT_IMAGES[2], url: '#', marketplace: 'Wildberries', similarity: 85 },
-    { id: '4', name: 'Топ и юбка офисный casual', price: 11200, image: PRODUCT_IMAGES[3], url: '#', marketplace: 'Wildberries', similarity: 82 },
+    { id: '1', name: 'Платье миди приглушённого оттенка', price: 18900, image: FASHION_IMAGES.dressMidi[0], images: FASHION_IMAGES.dressMidi, url: '#', marketplace: 'Lamoda', similarity: 92 },
+    { id: '2', name: 'Вечерний образ в нейтральных тонах', price: 24500, image: FASHION_IMAGES.evening[0], images: FASHION_IMAGES.evening, url: '#', marketplace: 'Lamoda', similarity: 88 },
+    { id: '3', name: 'Белая футболка базовая и casual-образы', price: 15900, image: FASHION_IMAGES.whiteTeeLooks[0], images: FASHION_IMAGES.whiteTeeLooks, url: '#', marketplace: 'Wildberries', similarity: 85 },
+    { id: '4', name: 'Пончо вязаное бежевое и летние образы', price: 11200, image: FASHION_IMAGES.ponchoSummer[0], images: FASHION_IMAGES.ponchoSummer, url: '#', marketplace: 'Wildberries', similarity: 82 },
   ];
 
   var MOCK_MASTERS = [
@@ -36,18 +50,26 @@
   }
 
   function cardHtml(p) {
-    var img = (p.images && p.images[0]) || p.image;
+    var imgs = (p.images && p.images.length) ? p.images : [p.image];
+    var img = imgs[0];
     var sim = p.similarity != null ? '<span class="card-badge">' + p.similarity + '%</span>' : '';
-    return (
-      '<div class="card">' +
+    var html = '<div class="card">' +
       '<div class="card-image-wrap">' +
       '<img src="' + esc(img) + '" alt="" onerror="this.src=\'' + PLACEHOLDER_IMG.replace(/'/g, "\\'") + '\'">' + sim +
       '<a href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer" class="card-link">↗</a>' +
-      '</div><div class="card-body">' +
+      '</div>';
+    if (imgs.length > 1) {
+      html += '<div class="card-thumbs">';
+      imgs.slice(0, 5).forEach(function (src) {
+        html += '<div class="card-thumb"><img src="' + esc(src) + '" alt="" onerror="this.src=\'' + PLACEHOLDER_IMG.replace(/'/g, "\\'") + '\'"></div>';
+      });
+      html += '</div>';
+    }
+    html += '<div class="card-body">' +
       '<h4 class="card-title">' + esc(p.name) + '</h4>' +
       '<p class="card-price">' + p.price.toLocaleString('ru-RU') + ' ₽</p>' +
-      '</div></div>'
-    );
+      '</div></div>';
+    return html;
   }
 
   function masterCardHtml(m) {
@@ -174,6 +196,7 @@
   function showLoading(show) {
     var el = document.getElementById('loadingBubble');
     if (el) el.style.display = show ? 'flex' : 'none';
+    if (document.body) document.body.classList.toggle('generating', !!show);
     if (show) scrollToEnd();
   }
 
