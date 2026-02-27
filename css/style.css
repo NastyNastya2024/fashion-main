@@ -159,22 +159,28 @@ body.dialog-active {
   width: 273px;
 }
 
-/* Мобильная версия: фигурки немного увеличены, контейнер уже — чтобы не уезжали за экран */
+/* Мобильная версия: фигурки в центре над заголовком */
 @media (max-width: 767px) {
   .figurines-wrap {
-    left: -8%;
-    right: -8%;
+    left: 50%;
+    right: auto;
+    top: -80%;
+    transform: translateX(-50%) translateY(0);
+    justify-content: center;
+    gap: 8px;
   }
   .figurine {
-    width: 190px;
+    width: 220px;
   }
   .figurine-left {
-    margin-bottom: 26%;
-    margin-left: 2%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
   .figurine-right {
-    margin-bottom: 0%;
-    margin-left: -1%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
