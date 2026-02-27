@@ -212,7 +212,7 @@ body.dialog-active {
   .figurines-wrap {
     left: 50%;
     right: auto;
-    top: -80%;
+    top: -35%;
     transform: translateX(-50%) translateY(0);
     justify-content: center;
     gap: 8px;
@@ -302,13 +302,15 @@ body.dialog-active {
 
 .empty-title {
   margin: 0 0 12px;
-  font-family: var(--font-nauryz);
+  font-family: 'Oswald', var(--font-nauryz);
   font-size: 1.1rem;
   font-weight: 700;
   font-style: normal;
   color: var(--black);
   letter-spacing: -0.02em;
   line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (max-width: 767px) {
