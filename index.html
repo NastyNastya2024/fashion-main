@@ -7,9 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+  <!-- Прелоадер -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <div class="preloader-spinner"></div>
+      <p class="preloader-text">Загрузка...</p>
+    </div>
+  </div>
+
   <header class="header">
     <h1 class="header-title">StyleGenie</h1>
     <nav class="header-nav">
@@ -32,10 +40,10 @@
     <section class="empty-state" id="emptyState">
       <div class="figurines-wrap" id="figurinesWrap">
         <div class="figurine figurine-left" id="figurineLeft" aria-hidden="true">
-          <img src="images/figurine-left.png" alt="">
+          <img src="/images/figurine-left.png" alt="">
         </div>
         <div class="figurine figurine-right" id="figurineRight" aria-hidden="true">
-          <img src="images/figurine-right.png" alt="">
+          <img src="/images/figurine-right.png" alt="">
         </div>
       </div>
       <div class="empty-state-content">
@@ -98,6 +106,6 @@
     <small>Демо-анимация без бэкенда. Подходит для GitHub Pages.</small>
   </footer>
 
-  <script src="js/app.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 </html>

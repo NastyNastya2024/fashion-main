@@ -422,14 +422,62 @@
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
   }
 
+  // Прелоадер: ждем загрузки всех изображений
+  function initPreloader() {
+    var preloader = document.getElementById('preloader');
+    if (!preloader) return;
+
+    var imagesToLoad = [
+      '/images/figurine-left.png',
+      '/images/figurine-right.png',
+      '/images/background.png'
+    ];
+
+    var loadedCount = 0;
+    var totalImages = imagesToLoad.length;
+
+    function imageLoaded() {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        // Небольшая задержка для плавности
+        setTimeout(function () {
+          preloader.classList.add('preloader-hidden');
+          setTimeout(function () {
+            preloader.style.display = 'none';
+          }, 500);
+        }, 300);
+      }
+    }
+
+    // Загружаем все изображения
+    imagesToLoad.forEach(function (src) {
+      var img = new Image();
+      img.onload = imageLoaded;
+      img.onerror = imageLoaded; // Продолжаем даже если изображение не загрузилось
+      img.src = src;
+    });
+
+    // Таймаут на случай, если изображения не загрузятся
+    setTimeout(function () {
+      if (loadedCount < totalImages) {
+        preloader.classList.add('preloader-hidden');
+        setTimeout(function () {
+          preloader.style.display = 'none';
+        }, 500);
+      }
+    }, 10000); // Максимум 10 секунд
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
+      initPreloader();
       run();
       initEmptyStateForm();
       initMarketplacesTicker();
       initMarketplacesModal();
     });
   } else {
+    initPreloader();
     run();
     initEmptyStateForm();
     initMarketplacesTicker();
