@@ -121,6 +121,7 @@ body.dialog-active {
   margin: 0 auto;
   text-align: center;
   position: relative;
+  overflow: visible;
 }
 
 .empty-state-content {
@@ -158,16 +159,22 @@ body.dialog-active {
   width: 273px;
 }
 
-/* Мобильная версия: фигурки меньше, девушка выше, парень ниже */
+/* Мобильная версия: фигурки меньше, контейнер уже — чтобы не уезжали за экран */
 @media (max-width: 767px) {
+  .figurines-wrap {
+    left: -8%;
+    right: -8%;
+  }
   .figurine {
     width: 160px;
   }
   .figurine-left {
-    margin-bottom: 22%;
+    margin-bottom: 26%;
+    margin-left: 2%;
   }
   .figurine-right {
-    margin-bottom: 2%;
+    margin-bottom: 0%;
+    margin-left: -1%;
   }
 }
 
@@ -183,22 +190,22 @@ body.dialog-active {
   display: block;
 }
 
-/* Девушка слева — приподнята выше парня, сдвинута влево */
+/* Девушка слева — приподнята, сдвинута вправо к строке поиска */
 .figurine-left {
   align-self: flex-end;
-  margin-bottom: 12%;
-  margin-right: 2%;
-  margin-left: -4%;
+  margin-bottom: 18%;
+  margin-right: 0;
+  margin-left: 4%;
   opacity: 0;
   animation: figurineFlyInLeft 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Парень справа — сдвинут к правому краю */
+/* Парень справа — сдвинут вниз и влево к стеклянной панели */
 .figurine-right {
   align-self: flex-end;
-  margin-bottom: 8%;
-  margin-left: 2%;
-  margin-right: -4%;
+  margin-bottom: 4%;
+  margin-left: 0;
+  margin-right: -2%;
   opacity: 0;
   animation: figurineFlyInRight 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
 }
