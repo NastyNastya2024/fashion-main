@@ -349,8 +349,6 @@
     { name: 'AliExpress', url: 'https://aliexpress.ru', icon: 'https://aliexpress.ru/favicon.ico' },
     { name: 'Яндекс Маркет', url: 'https://market.yandex.ru', icon: 'https://market.yandex.ru/favicon.ico' },
     { name: 'СберМегаМаркет', url: 'https://sbermegamarket.ru', icon: 'https://sbermegamarket.ru/favicon.ico' },
-    { name: 'Goods', url: 'https://goods.ru', icon: 'https://goods.ru/favicon.ico' },
-    { name: 'Brandshop', url: 'https://brandshop.ru', icon: 'https://brandshop.ru/favicon.ico' },
     { name: 'ЦУМ', url: 'https://www.tsum.ru', icon: 'https://www.tsum.ru/favicon.ico' },
     { name: 'The Cultt', url: 'https://thecultt.com', icon: 'https://thecultt.com/favicon.ico' },
     { name: 'Goods Gifts', url: 'https://goods.gifts/', icon: 'https://goods.gifts/favicon.ico' },
