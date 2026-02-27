@@ -136,25 +136,35 @@
     scrollToEnd();
   }
 
-  function addBubbleWithInteractiveButtons(role, content, quickReplies) {
+  function addBubbleWithInteractiveButtons(role, content, quickReplies, onAction) {
     var area = document.getElementById('messagesInner');
     if (!area) return;
+    var list = quickReplies || [];
+    var discount = list.filter(function (qr) { return qr.action === 'discounts'; })[0];
+    var rest = list.filter(function (qr) { return qr.action !== 'discounts'; });
+
     var wrap = document.createElement('div');
     wrap.className = 'msg ' + role;
     var html = '<div class="msg-bubble"><p class="msg-content">' + esc(content) + '</p>';
     html += '<div class="quick-replies"><div class="quick-replies-buttons">';
-    (quickReplies || []).forEach(function (qr) {
-      html += '<button type="button" class="quick-reply-btn" data-action="' + esc(qr.action) + '">' + esc(qr.label) + '</button>';
+    rest.forEach(function (qr) {
+      html += '<button type="button" class="quick-reply-btn" data-action="' + esc(qr.action) + '" data-label="' + esc(qr.label) + '">' + esc(qr.label) + '</button>';
     });
-    html += '</div></div></div>';
+    html += '</div>';
+    if (discount) {
+      html += '<div class="quick-reply-discount-wrap"><button type="button" class="quick-reply-discount-btn" data-action="' + esc(discount.action) + '" data-label="' + esc(discount.label) + '">' + esc(discount.label) + '</button></div>';
+    }
+    html += '</div></div>';
     wrap.innerHTML = html;
     area.appendChild(wrap);
 
-    wrap.querySelectorAll('.quick-reply-btn').forEach(function (btn) {
-      btn.onclick = function () {
-        var action = btn.getAttribute('data-action');
-        handleQuickReply(action);
-      };
+    function handleClick(btn) {
+      var action = btn.getAttribute('data-action');
+      var label = btn.getAttribute('data-label') || btn.textContent || '';
+      if (onAction) onAction(action, label); else handleQuickReply(action);
+    }
+    wrap.querySelectorAll('.quick-reply-btn, .quick-reply-discount-btn').forEach(function (btn) {
+      btn.onclick = function () { handleClick(btn); };
     });
     scrollToEnd();
   }
@@ -196,7 +206,6 @@
   function showLoading(show) {
     var el = document.getElementById('loadingBubble');
     if (el) el.style.display = show ? 'flex' : 'none';
-    if (document.body) document.body.classList.toggle('generating', !!show);
     if (show) scrollToEnd();
   }
 
@@ -226,6 +235,7 @@
     if (empty) empty.style.display = 'none';
     if (chat) chat.style.display = 'flex';
     if (fig) fig.classList.add('figurines-hidden');
+    if (document.body) document.body.classList.add('dialog-active');
   }
 
   function resetView() {
@@ -239,6 +249,7 @@
     if (chat) chat.style.display = 'none';
     if (fig) fig.classList.remove('figurines-hidden');
     if (area) area.innerHTML = '';
+    if (document.body) document.body.classList.remove('dialog-active');
     showLoading(false);
     restoreInputBar();
   }
@@ -253,66 +264,126 @@
     timeouts.forEach(clearTimeout);
     timeouts = [];
     resetView();
+  }
 
-    var delay = 0;
-    delay += 2200;
-    schedule(delay, function () {
-      switchToChat();
-      addBubble('user', 'Хочу вечернее платье');
-    });
-    delay += 800;
-    schedule(delay, function () {
-      addBubble('assistant', 'Понял! Уточни ценовой сегмент:', {
-        quickReplies: [
-          { label: 'До 10 000 ₽', action: 'budget' },
-          { label: '10 000 – 30 000 ₽', action: 'mid' },
-          { label: '30 000 – 50 000 ₽', action: 'premium_mid' },
-          { label: 'Премиум 50 000+ ₽', action: 'premium' },
-          { label: 'Искать скидки', action: 'discounts' },
-        ],
-      });
-    });
-    delay += 2800;
-    schedule(delay, function () {
-      addBubble('user', '10 000 – 30 000 ₽');
-    });
-    delay += 800;
-    schedule(delay, function () {
-      addBubble('assistant', 'Повод или тип образа?', {
-        quickReplies: [
-          { label: 'Повседневная одежда', action: 'casual' },
-          { label: 'Вечеринка / выход', action: 'party' },
-          { label: 'Торжество / свадьба', action: 'formal' },
-        ],
-      });
-    });
-    delay += 2600;
-    schedule(delay, function () {
-      addBubble('user', 'Вечеринка / выход');
-    });
-    delay += 800;
-    schedule(delay, function () {
+  var PRICE_QUICK_REPLIES = [
+    { label: 'До 10 000 ₽', action: 'budget' },
+    { label: '10 000 – 30 000 ₽', action: 'mid' },
+    { label: '30 000 – 50 000 ₽', action: 'premium_mid' },
+    { label: 'Премиум 50 000+ ₽', action: 'premium' },
+    { label: 'Искать скидки', action: 'discounts' },
+  ];
+
+  var OCCASION_QUICK_REPLIES = [
+    { label: 'Повседневная одежда', action: 'casual' },
+    { label: 'Вечеринка / выход', action: 'party' },
+    { label: 'Торжество / свадьба', action: 'formal' },
+  ];
+
+  function showOccasionStep() {
+    addBubbleWithInteractiveButtons('assistant', 'Повод или тип образа?', OCCASION_QUICK_REPLIES, function (action, label) {
+      addBubble('user', label);
       showLoading(true);
+      setTimeout(function () {
+        showLoading(false);
+        addBubble('assistant', 'Найдено несколько товаров. Посмотри, есть ли то что искал.', { products: DEMO_PRODUCTS });
+        addBubbleWithInteractiveButtons('assistant', 'Нашёл ли ты то, что хотел?', [
+          { label: 'Да, нашёл', action: 'yes' },
+          { label: 'Нет, не то', action: 'no' },
+        ]);
+        restoreInputBar();
+      }, 1200);
     });
-    delay += 1400;
-    schedule(delay, function () {
-      showLoading(false);
-      addBubble('assistant', 'Найдено несколько товаров. Посмотри, есть ли то что искал.', { products: DEMO_PRODUCTS });
+  }
+
+  function startConversation(firstMessage) {
+    var text = (firstMessage || '').trim();
+    if (!text) return;
+    timeouts.forEach(clearTimeout);
+    timeouts = [];
+    switchToChat();
+    addBubble('user', text);
+
+    addBubbleWithInteractiveButtons('assistant', 'Понял! Уточни ценовой сегмент:', PRICE_QUICK_REPLIES, function (action, label) {
+      addBubble('user', label);
+      showOccasionStep();
     });
-    delay += 600;
-    schedule(delay, function () {
-      addBubbleWithInteractiveButtons('assistant', 'Нашёл ли ты то, что хотел?', [
-        { label: 'Да, нашёл', action: 'yes' },
-        { label: 'Нет, не то', action: 'no' },
-      ]);
+  }
+
+  function initEmptyStateForm() {
+    var form = document.getElementById('inputForm');
+    var input = document.getElementById('textInput');
+    if (!form || !input) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = (input.value || '').trim();
+      if (!text) return;
+      input.value = '';
+      startConversation(text);
     });
-    delay += 300;
-    schedule(delay, restoreInputBar);
+  }
+
+  // 10 популярных маркетплейсов России по продаже одежды (иконки — favicon)
+  var MARKETPLACES_LIST = [
+    { name: 'Wildberries', url: 'https://www.wildberries.ru', icon: 'https://www.wildberries.ru/favicon.ico' },
+    { name: 'Ozon', url: 'https://www.ozon.ru', icon: 'https://www.ozon.ru/favicon.ico' },
+    { name: 'Lamoda', url: 'https://www.lamoda.ru', icon: 'https://www.lamoda.ru/favicon.ico' },
+    { name: 'AliExpress', url: 'https://aliexpress.ru', icon: 'https://aliexpress.ru/favicon.ico' },
+    { name: 'Яндекс Маркет', url: 'https://market.yandex.ru', icon: 'https://market.yandex.ru/favicon.ico' },
+    { name: 'СберМегаМаркет', url: 'https://sbermegamarket.ru', icon: 'https://sbermegamarket.ru/favicon.ico' },
+    { name: 'Goods', url: 'https://goods.ru', icon: 'https://goods.ru/favicon.ico' },
+    { name: 'Brandshop', url: 'https://brandshop.ru', icon: 'https://brandshop.ru/favicon.ico' },
+    { name: 'ЦУМ', url: 'https://www.tsum.ru', icon: 'https://www.tsum.ru/favicon.ico' },
+    { name: 'Глория Джинс', url: 'https://www.gloria-jeans.ru', icon: 'https://www.gloria-jeans.ru/favicon.ico' },
+  ];
+
+  function initMarketplacesModal() {
+    var btn = document.getElementById('navMarketplaces');
+    var modal = document.getElementById('marketplacesModal');
+    var overlay = document.getElementById('marketplacesOverlay');
+    var closeBtn = document.getElementById('marketplacesClose');
+    var grid = document.getElementById('marketplacesGrid');
+    if (!btn || !modal || !grid) return;
+
+    grid.innerHTML = MARKETPLACES_LIST.map(function (m) {
+      var initial = (m.name.charAt(0) || '?').toUpperCase();
+      return (
+        '<a href="' + esc(m.url) + '" target="_blank" rel="noopener noreferrer" class="marketplaces-item" title="' + esc(m.name) + '">' +
+        '<span class="marketplaces-item-icon-wrap">' +
+        '<img class="marketplaces-item-icon" src="' + esc(m.icon) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+        '<span class="marketplaces-item-icon fallback" style="display:none">' + initial + '</span>' +
+        '</span>' +
+        '<span>' + esc(m.name) + '</span>' +
+        '</a>'
+      );
+    }).join('');
+
+    function openModal() {
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('is-open');
+    }
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openModal();
+    });
+    if (overlay) overlay.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', run);
+    document.addEventListener('DOMContentLoaded', function () {
+      run();
+      initEmptyStateForm();
+      initMarketplacesModal();
+    });
   } else {
     run();
+    initEmptyStateForm();
+    initMarketplacesModal();
   }
 })();
