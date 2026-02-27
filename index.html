@@ -39,27 +39,29 @@
         </div>
       </div>
       <div class="empty-state-content">
-        <h2 class="empty-title">Опиши, какой образ ты хочешь найти</h2>
-        <p class="empty-subtitle">Находи образ по картинке, создавай свои образы с помощью ИИ, ищи скидки или сшей на заказ.</p>
-        <div class="input-bar-wrap">
-          <div class="preview-wrap" id="previewWrap" style="display: none;">
-            <img id="previewImg" src="" alt="">
-            <button type="button" class="preview-remove" id="previewRemove" aria-label="Убрать">×</button>
+        <div class="empty-state-glass">
+          <h2 class="empty-title">Опиши, какой образ ты хочешь найти</h2>
+          <p class="empty-subtitle">Найди вещь по картинке, с ИИ, со скидками или сшей на заказ.</p>
+          <div class="input-bar-wrap">
+            <div class="preview-wrap" id="previewWrap" style="display: none;">
+              <img id="previewImg" src="" alt="">
+              <button type="button" class="preview-remove" id="previewRemove" aria-label="Убрать">×</button>
+            </div>
+            <form class="input-form" id="inputForm">
+              <input type="file" id="fileInput" accept="image/*" class="hidden">
+              <input type="text" id="textInput" placeholder="Опиши образ, например: вечернее платье, джинсы и кроссовки..." autocomplete="off">
+              <button type="button" class="btn-icon btn-icon-image" id="btnImage" aria-label="Прикрепить картинку" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </button>
+              <button type="submit" class="btn-send" id="btnSend" aria-label="Отправить">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              </button>
+            </form>
           </div>
-          <form class="input-form" id="inputForm">
-            <input type="file" id="fileInput" accept="image/*" class="hidden">
-            <input type="text" id="textInput" placeholder="Опиши образ, например: вечернее платье, джинсы и кроссовки..." autocomplete="off">
-            <button type="button" class="btn-icon btn-icon-image" id="btnImage" aria-label="Прикрепить картинку" disabled>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-            </button>
-            <button type="submit" class="btn-send" id="btnSend" aria-label="Отправить">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-            </button>
-          </form>
-        </div>
-        <div class="marketplaces-ticker-wrap" id="marketplacesTickerWrap" aria-hidden="true">
-          <div class="marketplaces-ticker" id="marketplacesTicker">
-            <div class="marketplaces-ticker-inner" id="marketplacesTickerInner"></div>
+          <div class="marketplaces-ticker-wrap" id="marketplacesTickerWrap" aria-hidden="true">
+            <div class="marketplaces-ticker" id="marketplacesTicker">
+              <div class="marketplaces-ticker-inner" id="marketplacesTickerInner"></div>
+            </div>
           </div>
         </div>
       </div>
