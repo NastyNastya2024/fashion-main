@@ -302,15 +302,13 @@ body.dialog-active {
 
 .empty-title {
   margin: 0 0 12px;
-  font-family: 'Oswald', var(--font-nauryz);
+  font-family: var(--font-inter);
   font-size: 1.1rem;
   font-weight: 700;
   font-style: normal;
   color: var(--black);
   letter-spacing: -0.02em;
   line-height: 1.2;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (max-width: 767px) {
