@@ -1,6 +1,17 @@
 /* StyleGenie — статическая версия для GitHub Pages */
+@font-face {
+  font-family: 'NauryzRedKeds';
+  src: url('../fonts/NauryzRedKeds.woff2') format('woff2'),
+       url('../fonts/NauryzRedKeds.woff') format('woff'),
+       url('../fonts/NauryzRedKeds.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-inter: 'Inter', system-ui, sans-serif;
+  --font-nauryz: 'NauryzRedKeds', 'Oswald', sans-serif;
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
@@ -203,11 +214,11 @@ body.dialog-active {
 
 .empty-title {
   margin: 0 0 12px;
-  font-family: 'Nunito', var(--font-inter);
+  font-family: var(--font-nauryz);
   font-size: 1.75rem;
-  font-weight: 800;
-  font-style: italic;
-  color: #1e3a5f;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--black);
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
