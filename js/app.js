@@ -428,9 +428,9 @@
     if (!preloader) return;
 
     var imagesToLoad = [
-      '/images/figurine-left.png',
-      '/images/figurine-right.png',
-      '/images/background.png'
+      'images/figurine-left.png',
+      'images/figurine-right.png',
+      'images/background.png'
     ];
 
     var loadedCount = 0;
