@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>StyleGenie — финальная концепция</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/concept.css">
+</head>
+<body class="concept-page">
+  <header class="header">
+    <h1 class="header-title"><a href="index.html" style="color:inherit;text-decoration:none">StyleGenie</a></h1>
+    <nav class="header-nav">
+      <a href="concept.html" class="is-active">Концепция</a>
+      <a href="index.html">Демо</a>
+    </nav>
+  </header>
+
+  <main class="concept-main">
+    <section class="concept-hero">
+      <span class="concept-badge">Финальная модель</span>
+      <h1>StyleGenie — AI-поиск образов по всему интернету</h1>
+      <p>
+        Пользователь описывает или загружает образ — сервис находит похожие вещи
+        на маркетплейсах и сайтах брендов. Если точного совпадения нет — предлагает
+        ателье или генерацию дизайна.
+      </p>
+    </section>
+
+    <section class="concept-section">
+      <h2 class="concept-section-title">Пользовательский сценарий</h2>
+      <p class="concept-section-desc">Единый чат-интерфейс от запроса до покупки или заказа.</p>
+      <div class="concept-glass">
+        <div class="concept-flow">
+          <div class="concept-flow-step">
+            <span class="concept-flow-num">1</span>
+            <div class="concept-flow-body">
+              <h3>Запрос</h3>
+              <p>Текст («красное платье в горошек до 15 000 ₽») или фото из Pinterest / зеркала.</p>
+            </div>
+          </div>
+          <div class="concept-flow-step">
+            <span class="concept-flow-num">2</span>
+            <div class="concept-flow-body">
+              <h3>Уточнение</h3>
+              <p>Бот спрашивает бюджет, повод, размер — если это нужно для точного поиска.</p>
+            </div>
+          </div>
+          <div class="concept-flow-step">
+            <span class="concept-flow-num">3</span>
+            <div class="concept-flow-body">
+              <h3>Поиск</h3>
+              <p>CLIP-кодирование образа → векторный поиск по каталогам подключённых площадок.</p>
+            </div>
+          </div>
+          <div class="concept-flow-step">
+            <span class="concept-flow-num">4</span>
+            <div class="concept-flow-body">
+              <h3>Результат</h3>
+              <p>Карточки товаров с ценой, ссылкой на маркетплейс или сайт бренда, фото и скидками.</p>
+            </div>
+          </div>
+          <div class="concept-flow-step">
+            <span class="concept-flow-num">5</span>
+            <div class="concept-flow-body">
+              <h3>Запасной путь</h3>
+              <p>Не нашли? — подбор ателье для пошива или AI-генерация референса под заказ.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="concept-section">
+      <h2 class="concept-section-title">Две стадии развития</h2>
+      <p class="concept-section-desc">
+        Сначала закрываем российский рынок, затем подключаем международные площадки.
+      </p>
+      <div class="concept-stages">
+        <article class="concept-stage concept-stage--ru">
+          <span class="concept-stage-label">Стадия 1 · MVP</span>
+          <h3>Российские маркетплейсы и бренды</h3>
+          <p>
+            Фокус на локальном спросе: быстрый запуск, понятные цены в рублях,
+            доставка по РФ. Подключаем агрегаторы и прямые фиды брендов.
+          </p>
+
+          <div class="concept-stage-group">
+            <h4>Маркетплейсы</h4>
+            <div class="concept-tags">
+              <span class="concept-tag">Wildberries</span>
+              <span class="concept-tag">Ozon</span>
+              <span class="concept-tag">Lamoda</span>
+              <span class="concept-tag">Яндекс Маркет</span>
+              <span class="concept-tag">СберМегаМаркет</span>
+              <span class="concept-tag">ЦУМ</span>
+              <span class="concept-tag">AliExpress Россия</span>
+            </div>
+          </div>
+
+          <div class="concept-stage-group">
+            <h4>Сайты брендов</h4>
+            <div class="concept-tags">
+              <span class="concept-tag">12 Storeez</span>
+              <span class="concept-tag">Ushatava</span>
+              <span class="concept-tag">Studio 29</span>
+              <span class="concept-tag">Fashion Rebels</span>
+              <span class="concept-tag">Charuel</span>
+              <span class="concept-tag">Befree</span>
+              <span class="concept-tag">SELA</span>
+              <span class="concept-tag">HENDERSON</span>
+              <span class="concept-tag">The Cultt</span>
+              <span class="concept-tag">IDOL</span>
+            </div>
+          </div>
+
+          <p class="concept-stage-meta">
+            Источники данных: партнёрские API, product feeds, парсинг каталогов
+            (с соблюдением ToS). Ранжирование: визуальное сходство + цена + наличие + рейтинг продавца.
+          </p>
+        </article>
+
+        <article class="concept-stage concept-stage--intl">
+          <span class="concept-stage-label">Стадия 2 · Scale</span>
+          <h3>Международные площадки</h3>
+          <p>
+            Расширение на глобальный ассортимент: люкс, стритвир, секонд-хенд.
+            Конвертация валют, доставка за рубеж, фильтр по стране пользователя.
+          </p>
+
+          <div class="concept-stage-group">
+            <h4>Маркетплейсы</h4>
+            <div class="concept-tags">
+              <span class="concept-tag">ASOS</span>
+              <span class="concept-tag">Zalando</span>
+              <span class="concept-tag">Farfetch</span>
+              <span class="concept-tag">SSENSE</span>
+              <span class="concept-tag">Mytheresa</span>
+              <span class="concept-tag">Amazon Fashion</span>
+              <span class="concept-tag">eBay</span>
+              <span class="concept-tag">Vestiaire Collective</span>
+            </div>
+          </div>
+
+          <div class="concept-stage-group">
+            <h4>Сайты брендов</h4>
+            <div class="concept-tags">
+              <span class="concept-tag">Zara</span>
+              <span class="concept-tag">H&amp;M</span>
+              <span class="concept-tag">Mango</span>
+              <span class="concept-tag">COS</span>
+              <span class="concept-tag">Massimo Dutti</span>
+              <span class="concept-tag">Nike</span>
+              <span class="concept-tag">Adidas</span>
+              <span class="concept-tag">Uniqlo</span>
+            </div>
+          </div>
+
+          <p class="concept-stage-meta">
+            Мультивалютность, локализация интерфейса, фильтр «доставка в мою страну».
+            Единый векторный индекс поверх всех регионов с приоритетом локального каталога.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="concept-section">
+      <h2 class="concept-section-title">Архитектура</h2>
+      <p class="concept-section-desc">Микросервисы, общий поисковый слой и единый чат на фронте.</p>
+      <div class="concept-arch">
+        <div class="concept-arch-item">
+          <h4>Frontend</h4>
+          <p>Next.js: чат, загрузка фото, карточки товаров, ссылки на площадки.</p>
+        </div>
+        <div class="concept-arch-item">
+          <h4>API Gateway</h4>
+          <p>Маршрутизация запросов, CORS, rate limit, будущая авторизация.</p>
+        </div>
+        <div class="concept-arch-item">
+          <h4>Search Engine</h4>
+          <p>CLIP-эмбеддинги, векторная БД (Pinecone / Weaviate), ранжирование результатов.</p>
+        </div>
+        <div class="concept-arch-item">
+          <h4>Image Generation</h4>
+          <p>SDXL / Flux — референс, когда товар не найден в каталогах.</p>
+        </div>
+        <div class="concept-arch-item">
+          <h4>Atelier Matching</h4>
+          <p>Подбор ателье по сложности, стилю, городу и бюджету на пошив.</p>
+        </div>
+        <div class="concept-arch-item">
+          <h4>Каталоги</h4>
+          <p>Коннекторы к маркетплейсам и брендам: фиды, API, периодическая переиндексация.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="concept-section">
+      <h2 class="concept-section-title">Если товар не найден</h2>
+      <p class="concept-section-desc">Два альтернативных сценария вместо тупика.</p>
+      <div class="concept-fallback">
+        <div class="concept-fallback-card">
+          <h4>Ателье на заказ</h4>
+          <p>
+            ML оценивает сложность образа, подбирает мастеров в городе пользователя
+            с портфолио и отзывами. Связь через чат или заявку.
+          </p>
+        </div>
+        <div class="concept-fallback-card">
+          <h4>AI-генерация</h4>
+          <p>
+            Генерируем визуальный референс по описанию — пользователь показывает
+            мастеру или сохраняет как moodboard.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="concept-section">
+      <h2 class="concept-section-title">Дорожная карта</h2>
+      <div class="concept-glass">
+        <div class="concept-timeline">
+          <div class="concept-timeline-item">
+            <h4>Q1 — Демо и стадия 1 (РФ)</h4>
+            <p>Чат-интерфейс, 4–6 маркетплейсов, 10+ брендов, векторный поиск по фото.</p>
+          </div>
+          <div class="concept-timeline-item">
+            <h4>Q2 — Ателье и генерация</h4>
+            <p>Подбор мастеров, fallback на AI-референс, уточняющие вопросы в диалоге.</p>
+          </div>
+          <div class="concept-timeline-item concept-timeline-item--future">
+            <h4>Q3 — Стадия 2 (международные)</h4>
+            <p>ASOS, Zalando, Farfetch и др., мультивалютность, фильтр по доставке.</p>
+          </div>
+          <div class="concept-timeline-item concept-timeline-item--future">
+            <h4>Q4 — Монетизация</h4>
+            <p>Партнёрские ссылки (CPA), премиум-подписка, B2B для брендов и ателье.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a href="index.html" class="concept-back">← Вернуться к демо</a>
+  </main>
+
+  <footer class="footer">
+    StyleGenie — концептуальная модель продукта.<br>
+    <small>Демо без бэкенда на <a href="index.html">главной странице</a>.</small>
+  </footer>
+</body>
+</html>
